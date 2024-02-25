@@ -5,7 +5,7 @@ import { useLoginMutation } from "../redux/features/auth/authApiSlice";
 import { setCredentials } from "../redux/features/auth/authSlice";
 import { useNavigate } from "react-router-dom";
 
-const Login = ({ isLogin }) => {
+const Login = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [ login, {isLoading} ] = useLoginMutation();
@@ -45,7 +45,7 @@ const Login = ({ isLogin }) => {
                 msg: message
             });
 
-            navigate('/home')
+            navigate('/')
         } catch (err) {
             setAlert({
                 isSet: true,
@@ -61,7 +61,10 @@ const Login = ({ isLogin }) => {
         <h3 className="text-[12px] text-gray-500 text-center">
             By signing in you'll be connected again to your family and friends. 
         </h3>
-        <div onClick={isLogin} className="text-violet-500 font-semibold text-[12px] underline hover:cursor-pointer"> I dont have account.</div>
+        <div onClick={() => navigate('/auth/signup')} 
+            className="text-violet-500 font-semibold text-[12px] underline hover:cursor-pointer"> 
+            I dont have account.
+        </div>
 
         <form onSubmit={handleSubmit}>
             <div className="w-full flex flex-col my-5 gap-2">

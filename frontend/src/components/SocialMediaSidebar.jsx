@@ -1,28 +1,49 @@
-import { FaBlog, FaHome, FaUserFriends } from "react-icons/fa";
+import { FaBlog, FaHome, FaUserFriends, FaSignOutAlt } from "react-icons/fa";
 import { FaMessage } from "react-icons/fa6";
 import { MdAccountCircle, MdNotifications } from "react-icons/md";
 import { comm, profile } from "../assets";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useUserLogoutMutation } from "../redux/features/auth/authApiSlice";
 import { setLogout } from "../redux/features/auth/authSlice";
 import { useNavigate } from "react-router-dom";
-import {myData} from '../helper'
+import { selectCurrentUser } from "../redux/features/auth/authSlice";
+import { socMenulist } from "../data/SocSidebarlist";
+import { useState } from "react";
 
 
 const SocialMediaSidebar = () => {
-    
-    const { name, username } = myData();
+    const user = useSelector(selectCurrentUser);
     const [ userLogout ] = useUserLogoutMutation();
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const handleLogout = (e) => {
-        e.preventDefault();
-        
-        userLogout();
-        dispatch(setLogout());
-        navigate('/');
+    const menuIcons = {
+        newsfeed: FaHome,
+        message: FaMessage,
+        friends: FaUserFriends,
+        notification: MdNotifications,
+        account: MdAccountCircle,
+        logout: FaSignOutAlt
     }
+
+    const [ selected, setSelected ] = useState(1);
+
+    const handleNavigate = (menu) => {
+        const menuCount = socMenulist.length;
+        let path = '/auth/login';
+
+        if(menuCount != menu.key){
+            setSelected(menu.key);
+            path = menu.path;
+        }else{
+            userLogout();
+            dispatch(setLogout());
+        }
+        
+        navigate(path);
+    }
+
+
 
   return (
     <div className='w-[300px] relative'>
@@ -37,16 +58,32 @@ const SocialMediaSidebar = () => {
                     </div>
                 </div>
             <div className="flex flex-col items-center gap-1">
-                    <span className="text-black font-bold text-[14px] leading-3">{name}</span>
-                    <span className="text-[#9FA7BE] font-regular text-[12px]">@{username}</span>
+                    <span className="text-black font-bold text-[14px] leading-3">{user.name}</span>
+                    <span className="text-[#9FA7BE] font-regular text-[12px]">@{user.username}</span>
             </div>
             </div>
             <div className="w-full">
-                <div className="w-full py-3 pl-5 flex gap-4 items-center rounded-md bg-black text-white hover:cursor-pointer hover:text-[18px]">
+                {
+                    socMenulist.map((menu) => {
+                        let MenuIconComponent = menuIcons[menu.icon]
+                        let active = (selected == menu.key) ? 'bg-black text-white' : 'text-black';
+
+                        return (
+                            <div key={menu.key}
+                                onClick={() => handleNavigate(menu)}
+                                className={`w-full py-3 pl-5 flex gap-4 items-center rounded-md hover:cursor-pointer hover:text-[18px] ${active}`}
+                            >
+                                <MenuIconComponent />
+                                <span className="font-bold text-[14px]">{menu.name}</span>
+                            </div>
+                        )
+                    })
+                }
+                {/* <div className="w-full py-3 pl-5 flex gap-4 items-center rounded-md bg-black text-white hover:cursor-pointer hover:text-[18px]">
                     <FaHome />
                     <span className="font-bold text-[14px]">Newsfeed</span>
                 </div>
-                <div className="w-full py-3 pl-5 flex gap-4 items-center rounded-md text-black hover:cursor-pointer hover:text-[18px]">
+                <div className="w-full py-3 pl-5 flex gap-4 items-center rounded-md  hover:cursor-pointer hover:text-[18px]">
                     <FaMessage />
                     <span className="font-bold text-[14px] ">Messages</span>
                 </div>
@@ -58,12 +95,19 @@ const SocialMediaSidebar = () => {
                     <MdNotifications />
                     <span className="font-bold text-[14px]">Notification</span>
                 </div>
+                <div>
+                    <a href="/my-profile" 
+                        className="w-full py-3 pl-5 flex gap-4 items-center rounded-md text-black hover:cursor-pointer hover:text-[18px]">
+                        <MdAccountCircle />
+                        <span className="font-bold text-[14px]">Account</span>
+                    </a>
+                </div>
                 <div 
                     onClick={handleLogout}
                     className="w-full py-3 pl-5 flex gap-4 items-center rounded-md text-black hover:cursor-pointer hover:text-[18px]">
-                    <MdAccountCircle />
-                    <span className="font-bold text-[14px]">Account</span>
-                </div>
+                    <FaSignOutAlt />
+                    <span className="font-bold text-[14px]">Logout</span>
+                </div> */}
                 
             </div>
         </div>

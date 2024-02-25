@@ -1,12 +1,9 @@
 import MainSidebar from "./MainSidebar";
-import SocialMedia from "./SocialMedia";
-import Auth from "./Auth";
-import RequireAuth from "./RequireAuth";
-
+import SocialMediaLayout from "./SocialMediaLayout";
+import AuthLayout from "./AuthLayout";
 
 export {
     MainSidebar,
-    SocialMedia,
-    Auth,
-    RequireAuth,
+    SocialMediaLayout,
+    AuthLayout
 }

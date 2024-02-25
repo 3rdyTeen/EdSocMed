@@ -1,17 +1,19 @@
 import SocialMediaSidebar from "./SocialMediaSidebar";
-import Newsfeed from "./Newsfeed";
-import RightSoc from "./RightSoc";
 import CreatePost from "./CreatePost";
 import Login from "./Login";
 import Signup from "./Signup";
 import Layout from "./Layout"
+import LoadingScreen from "./LoadingScreen";
+import Posts from "./Posts";
+import About from "./About";
 
 export {
     SocialMediaSidebar,
-    Newsfeed,
-    RightSoc,
     CreatePost,
     Login,
     Signup,
-    Layout
+    Layout,
+    LoadingScreen,
+    Posts,
+    About
 }

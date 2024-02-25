@@ -1,8 +1,10 @@
 import { useState, useRef } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useSignupMutation } from "../redux/features/auth/authApiSlice";
+import { useNavigate } from "react-router-dom";
 
-const Signup = ({ isLogin }) => {
+const Signup = () => {
+    const navigate = useNavigate();
     const [ signup, {isLoading} ] = useSignupMutation();
 
     const [ alert, setAlert ] = useState({
@@ -50,7 +52,7 @@ const Signup = ({ isLogin }) => {
             });
 
             setTimeout(() => {
-                loginRef.current.click();
+                navigate('/auth/login')
             }, 1000);
             
         } catch (err) {
@@ -72,7 +74,7 @@ const Signup = ({ isLogin }) => {
             <h3 className="text-[12px] text-gray-500 text-center">
                 Create account now to experience best social app right now. 
             </h3>
-            <div onClick={isLogin} ref={loginRef} className="text-violet-500 font-semibold text-[12px] text-center underline hover:cursor-pointer"> I have already an account.</div>
+            <div onClick={() => navigate('/auth/login')}  ref={loginRef} className="text-violet-500 font-semibold text-[12px] text-center underline hover:cursor-pointer"> I have already an account.</div>
             
             <div className="w-full flex flex-col my-5 gap-2">
                 {alert.isSet && (

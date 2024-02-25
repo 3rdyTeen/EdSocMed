@@ -81,7 +81,8 @@ exports.login = async (req, res, next) => {
         success: true,
         message: "Successfully Loggedin.",
         data: {
-            token
+            token,
+            user
         }
       });
 

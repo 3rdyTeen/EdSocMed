@@ -1,9 +1,15 @@
-import { useState } from "react";
-import { Login, Signup } from "../components";
 import { auth_pic } from "../assets"
+import { useAuth } from "../hooks";
+import { Outlet, Navigate, useLocation } from "react-router-dom"
 
-const Auth = () => {
-    const [ isLogin, setisLogin ] = useState(true);
+const AuthLayout = () => {
+
+    const isLoggedIn = useAuth();
+    const location = useLocation();
+
+    if(isLoggedIn){
+        return <Navigate to="/" state={{from: location}} replace />
+    }
 
   return (
     <div className='w-full h-full flex justify-center items-center bg-slate-200'>
@@ -11,14 +17,10 @@ const Auth = () => {
             <div className='flex flex-1'>
                 <img src={auth_pic} alt="image" className="object-cover w-full h-auto" />
             </div>
-            {isLogin ? (
-                <Login isLogin={() => setisLogin(false)} />
-            ) : (
-                <Signup isLogin={() => setisLogin(true)} />
-            )}
+            <Outlet />
         </div>
     </div>
   )
 }
 
-export default Auth
+export default AuthLayout

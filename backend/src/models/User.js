@@ -52,7 +52,7 @@ UserSchema.methods.matchPassword = async function(enteredPassword) {
 
 // Sign JWT and return
 UserSchema.methods.getSignedJwtToken = function() {
-    return createJWT({ id:this._id, name: this.name, username:this.username });
+    return createJWT({ id:this._id });
 };
 
 // Generate and hash password token
